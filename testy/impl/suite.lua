@@ -45,7 +45,7 @@ function Suite.run(self)
     print("Running suite: "..self.name)
 
     for _, test in pairs(self.tests) do
-        if test:run(self.exec) then
+        if test:run(self) then
             success = success + 1
         else
             fail = fail + 1
@@ -63,6 +63,19 @@ function Suite.run(self)
     else
         print("All tests succeeded\n")
         return true
+    end
+end
+
+function Suite:record()
+    if not os.execute("mkdir -p .testy/"..self.name) then
+        print("Failed to create Testy record dir.")
+        return
+    end
+
+    print("Recording suite '"..self.name.."'")
+
+    for _, test in pairs(self.tests) do
+        test:record(self)
     end
 end
 

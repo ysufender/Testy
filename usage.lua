@@ -15,8 +15,5 @@ local test = Testy
                   "Hello World",
                   "Hello World\n")))
 
-if type(test) == "string" then
-    print(test)
-else
-    test:run()
-end
+test:record()
+test:run()

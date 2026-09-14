@@ -76,4 +76,23 @@ function Testy.run(self)
     }
 end
 
+---@param self Testy|string
+function Testy.record(self)
+    if type(self) == "string" then
+        print(self.."\nFailed to initialize Testy.")
+        return
+    end
+
+    if not os.execute("mkdir -p .testy/") then
+        print("Failed to create Testy record dir.")
+        return
+    end
+
+
+    print("Recording...")
+    for _, suite in pairs(self.suites) do
+        suite:record()
+    end
+end
+
 return Testy
