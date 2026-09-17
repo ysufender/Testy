@@ -2,16 +2,16 @@
 
 ---@class Testy.Test
 ---@field name     string
----@field params   string
+---@field command   string
 local Test = {}
 
 ---@param name   string
----@param params string
+---@param command string
 ---@return Testy.Test
-function Test.init(name, params)
+function Test.init(name, command)
     local obj = {
         name = name,
-        params = params,
+        command = command,
     }
 
     return setmetatable(obj, { __index = Test })
@@ -24,10 +24,9 @@ function Test:run(parent)
 
     local expected_path = ".testy/"..parent.name.."/"..self.name..".record"
 
-    local cmd = parent.exec.." "..self.params
-    local proc = io.popen(cmd, "r")
+    local proc = io.popen(self.command, "r")
     if not proc then
-        print("Failed to execute '"..cmd.."'")
+        print("Failed to execute '"..self.command.."'")
         return false
     end
 
@@ -45,7 +44,7 @@ function Test:run(parent)
         return true
     end
 
-    print("\tExpected\n\t"..expected.."received\n\t"..output.."'")
+    print("\tExpected\n"..expected.."\tReceived\n"..output.."'")
     return false
 end
 
@@ -55,10 +54,9 @@ function Test:record(parent)
 
     local expected_path = ".testy/"..parent.name.."/"..self.name..".record"
 
-    local cmd = parent.exec.." "..self.params
-    local proc = io.popen(cmd, "r")
+    local proc = io.popen(self.command, "r")
     if not proc then
-        print("Failed to execute '"..cmd.."'")
+        print("Failed to execute '"..self.command.."'")
         return false
     end
 

@@ -2,17 +2,14 @@
 
 ---@class Testy.Suite
 ---@field name string
----@field exec string
 ---@field tests Map<string, Testy.Test>
 local Suite = { }
 
 ---@param name string
----@param exec string
 ---@return Testy.Suite
-function Suite.init(name, exec)
+function Suite.init(name)
     local obj = {
         name = name,
-        exec = exec,
         tests = {}
     }
 
