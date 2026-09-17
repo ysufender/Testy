@@ -44,7 +44,23 @@ function Test:run(parent)
         return true
     end
 
-    print("\tExpected\n"..expected.."\tReceived\n"..output.."'")
+    local result_file = ".testy/.cache/"..parent.name.."/"..self.name..".result"
+    local file = io.open(result_file, "w");
+    if not file then
+        print("Failed to write result file '"..result_file.."'")
+        return false
+    end
+
+    if not file:write(output) then
+        print("Failed to write result file '"..result_file.."'")
+        return false
+    end
+    file:close()
+
+    print("\tDiffering Outputs")
+    if not os.execute("diff -y "..expected_path.." "..result_file) then
+        print("Failed to get output diff")
+    end
     return false
 end
 

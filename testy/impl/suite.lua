@@ -69,6 +69,11 @@ function Suite:record()
         return
     end
 
+    if not os.execute("mkdir -p .testy/.cache/"..self.name) then
+        print("Failed to create Testy record dir.")
+        return
+    end
+
     print("Recording suite '"..self.name.."'")
 
     for _, test in pairs(self.tests) do
